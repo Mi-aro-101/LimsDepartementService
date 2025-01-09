@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DepartementService.Utils;
 
 namespace DepartementService.Models;
 
 [Table("Departement")]
 public class Departement
 {
+
     [Key]
     [Column("id_departement")]
     public int IdDepartement { get; set; }

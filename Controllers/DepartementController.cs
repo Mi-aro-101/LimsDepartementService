@@ -76,7 +76,6 @@ public class DepartementController : Controller
     {
         Dictionary<string, object> response = new Dictionary<string, object>();
         int nbrPerPage = pageSize;
-        var nombre = await _context.Departements.CountAsync();
         response["nbrPerPage"] = nbrPerPage;
         response["TotalCount"] = _context.Departements.Count();
         response["nbrLinks"] = Math.Ceiling((double)_context.Departements.Count() / nbrPerPage);
