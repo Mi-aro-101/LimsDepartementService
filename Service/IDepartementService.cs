@@ -10,4 +10,5 @@ public interface IDepartementService
     Task<Departement> UpdateDepartement(int id, Departement departement);
     Task<bool> DeleteDepartement(int id);
     int CountDepartement();
+    Task<List<Departement>> GetAllDepartements();
 }
