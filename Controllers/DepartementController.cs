@@ -1,29 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DepartementService.Models;
-using DepartementService.Context;
-using DepartementService.Utils;
+using LimsDepartementService.Models;
+using LimsDepartementService.Utils;
+using LimsDepartementService.Service;
 
-namespace DepartementService.Controllers;
+namespace LimsDepartementService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class DepartementController : Controller
 {
-    private readonly DepartementContext _context;
+    private readonly IDepartementService _departementService;
 
-    public DepartementController(DepartementContext context)
+    public DepartementController(IDepartementService departementService)
     {
-      _context = context;
+      _departementService = departementService;
     }
 
     [HttpPost]
     public async Task<ActionResult<ApiResponse>> Create([Bind("Code,Designation")] Departement departement)
     {
         Dictionary<string, object> response = new Dictionary<string, object>();
-        _context.Departements.Add(departement);
-        await _context.SaveChangesAsync();
-        departement = await _context.Departements.OrderBy(d => d.IdDepartement).LastAsync();
+        departement = await _departementService.CreateDepartement(departement);
         return CreatedAtAction(nameof(GetDepartementDetails), new { id = departement.IdDepartement}, new ApiResponse
         {
             Data = departement,
@@ -35,17 +32,12 @@ public class DepartementController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ApiResponse>> Edit(int? id, [Bind("IdDepartement,Code,Designation")] Departement departement)
+    public async Task<ActionResult<ApiResponse>> Edit(int id, [Bind("IdDepartement,Code,Designation")] Departement departement)
     {
-        if(id == null)
-        {
-            return NotFound();
-        }
-        _context.Departements.Update(departement);
-        await _context.SaveChangesAsync();
+        await _departementService.UpdateDepartement(id, departement);
         return CreatedAtAction(nameof(GetDepartementDetails), new { id = departement.IdDepartement }, new ApiResponse
         {
-            Data = await _context.Departements.FirstOrDefaultAsync(d => d.IdDepartement == departement.IdDepartement),
+            Data = _departementService.GetDepartement(departement.IdDepartement),
             ViewBag = null,
             IsSuccess = true,
             Message = "Created successfully",
@@ -54,34 +46,24 @@ public class DepartementController : Controller
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int? id)
+    public async Task<ActionResult> Delete(int id)
     {
-        Dictionary<string, object> response = new Dictionary<string, object>();
-        if(id == null)
-        {
-            return NotFound();
-        }
-        var departement = await _context.Departements.FirstOrDefaultAsync(m => m.IdDepartement == id);
-        if(departement == null)
-        {
-            return NotFound();
-        }
-        _context.Departements.Remove(departement);
-        await _context.SaveChangesAsync();
+        await _departementService.DeleteDepartement(id);
         return NoContent();
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetDepartement(int position, int pageSize)
+    public async Task<ActionResult> GetDepartements(int position, int pageSize)
     {
         Dictionary<string, object> response = new Dictionary<string, object>();
         int nbrPerPage = pageSize;
         response["nbrPerPage"] = nbrPerPage;
-        response["TotalCount"] = _context.Departements.Count();
-        response["nbrLinks"] = Math.Ceiling((double)_context.Departements.Count() / nbrPerPage);
+        response["TotalCount"] = _departementService.CountDepartement();
+        response["nbrLinks"] = Math.Ceiling((double)_departementService.CountDepartement() / nbrPerPage);
 
             response["position"] = position;
-            List<Departement> departements = await _context.Departements.Skip(((int)response["position"]-1) * nbrPerPage).Take(nbrPerPage).ToListAsync();
+            int skiped = (position-1) * pageSize;
+            List<Departement> departements = await _departementService.GetDepartementsFrom(skiped, pageSize);
             return Ok(new ApiResponse
             {
                 Data = departements,
@@ -95,15 +77,8 @@ public class DepartementController : Controller
     [HttpGet("{id}")]
     public async Task<ActionResult<ApiResponse>> GetDepartementDetails(int id)
     {
-        if (id == null)
-        {
-            return BadRequest();
-        }
-        Departement? departement = await _context.Departements.FindAsync(id);
-        if (departement == null)
-        {
-            return NotFound();
-        }
+        Departement departement = await _departementService.GetDepartement(id);
+        if(departement == null) return NotFound();
         return Ok( new ApiResponse
         {
             Data = departement,

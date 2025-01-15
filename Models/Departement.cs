@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DepartementService.Utils;
+using LimsDepartementService.Utils;
 
-namespace DepartementService.Models;
+namespace LimsDepartementService.Models;
 
 [Table("Departement")]
 public class Departement
