@@ -42,6 +42,12 @@ public class DepartementService : IDepartementService
         return isDeleted;
     }
 
+    public async Task<List<Departement>> GetAllDepartements()
+    {
+        List<Departement> results = await _dbContext.Departements.ToListAsync();
+        return results;
+    }
+
     public async Task<Departement> GetDepartement(int id)
     {
         Departement result = await _dbContext.Departements

@@ -53,6 +53,21 @@ public class DepartementController : Controller
     }
 
     [HttpGet]
+    [Route("/api/departement/all")]
+    public async Task<ActionResult> GetAllDepartements()
+    {
+        List<Departement> departements = await _departementService.GetAllDepartements();
+        return Ok(new ApiResponse
+        {
+            Data = departements,
+            ViewBag = null,
+            IsSuccess = true,
+            Message = "Datas retrieved successfully.",
+            StatusCode = 200
+        });
+    }
+
+    [HttpGet]
     public async Task<ActionResult> GetDepartements(int position, int pageSize)
     {
         Dictionary<string, object> response = new Dictionary<string, object>();
