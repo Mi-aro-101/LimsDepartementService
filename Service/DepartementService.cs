@@ -44,7 +44,7 @@ public class DepartementService : IDepartementService
 
     public async Task<List<Departement>> GetAllDepartements()
     {
-        List<Departement> results = await _dbContext.Departements.ToListAsync();
+        List<Departement> results = await _dbContext.Departements.OrderByDescending(d => d.IdDepartement).ToListAsync();
         return results;
     }
 
@@ -58,7 +58,7 @@ public class DepartementService : IDepartementService
 
     public async Task<List<Departement>> GetDepartementsFrom(int skiped, int size)
     {
-        List<Departement> results = await _dbContext.Departements.Skip(skiped).Take(size)
+        List<Departement> results = await _dbContext.Departements.OrderByDescending(d => d.IdDepartement).Skip(skiped).Take(size)
             .ToListAsync();
 
         return results;
