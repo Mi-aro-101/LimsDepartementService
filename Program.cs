@@ -1,7 +1,8 @@
 // TODO Uninstall this package if there is a failure "Microsoft.VisualStudio.Web.CodeGeneration.Design"
 // TODO Uninstall this gloabal package if codegenerator does not work for mysql "aspnet-codegenerator"
-using DepartementService.Context;
+using LimsDepartementService.Data;
 using Microsoft.EntityFrameworkCore;
+using LimsDepartementService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddDbContext<DepartementContext>(options =>
             maxRetryDelay: TimeSpan.FromSeconds(30),
             errorNumbersToAdd: null);
     }));
+
+// For injection to controller
+builder.Services.AddScoped<IDepartementService, DepartementService>();
 
 var app = builder.Build();
 

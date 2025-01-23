@@ -1,4 +1,4 @@
-namespace DepartementService.Utils;
+namespace LimsDepartementService.Utils;
 
 public class ApiResponse // Generic response wrapper
 {

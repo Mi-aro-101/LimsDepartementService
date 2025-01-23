@@ -1,7 +1,7 @@
-using DepartementService.Models;
+using LimsDepartementService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DepartementService.Context;
+namespace LimsDepartementService.Data;
 
 public class DepartementContext : DbContext
 {
