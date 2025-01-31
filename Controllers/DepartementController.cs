@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LimsDepartementService.Models;
-using LimsDepartementService.Utils;
 using LimsDepartementService.Service;
+using ApiService; // Library from ./lib/*.dll
 
 namespace LimsDepartementService.Controllers;
 
