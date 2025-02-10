@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using LimsDepartementService.Models;
 using LimsDepartementService.Service;
 using LimsUtils.Api; // Library from ./lib/*.dll
+using System.Text.Json;
 
 namespace LimsDepartementService.Controllers;
 
@@ -19,7 +20,7 @@ public class DepartementController : Controller
     [HttpPost]
     public async Task<ActionResult<ApiResponse>> Create([Bind("Code,Designation")] Departement departement)
     {
-        Dictionary<string, object> response = new Dictionary<string, object>();
+        Console.WriteLine(JsonSerializer.Serialize(departement));
         departement = await _departementService.CreateDepartement(departement);
         return CreatedAtAction(nameof(GetDepartementDetails), new { id = departement.IdDepartement}, new ApiResponse
         {
