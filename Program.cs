@@ -24,6 +24,7 @@ builder.Services.AddDbContext<DepartementContext>(options =>
 
 // For injection to controller
 builder.Services.AddScoped<IDepartementService, DepartementService>();
+builder.Services.AddScoped<IRecettePrevisionnelleService, RecettePrevisionnelleService>();
 
 var app = builder.Build();
 
