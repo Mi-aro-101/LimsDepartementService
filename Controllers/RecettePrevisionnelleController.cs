@@ -19,16 +19,22 @@ public class RecettePrevisionelleController : Controller
     [HttpGet("{id}")]
     public async Task<ActionResult> GetRecettePrevisionnelle(int id)
     {
-        RecettePrevisionnelle recettePrevisionnelle = await _recettePrevisionnelleService.GetRecettePrevisionnelle(id);
-        if (recettePrevisionnelle == null) return NotFound();
-        return Ok(new ApiResponse
+        try
         {
-            Data = recettePrevisionnelle,
-            ViewBag = null,
-            IsSuccess = true,
-            Message = "Data retrieved successfully.",
-            StatusCode = 200
-        });
+            RecettePrevisionnelle recettePrevisionnelle = await _recettePrevisionnelleService.GetRecettePrevisionnelle(id);
+            if (recettePrevisionnelle == null) return NotFound();
+            return Ok(new ApiResponse
+            {
+                Data = recettePrevisionnelle,
+                ViewBag = null,
+                IsSuccess = true,
+                Message = "Data retrieved successfully.",
+                StatusCode = 200
+            });
+        }catch(Exception)
+        {
+            throw;
+        }
     }
 
     [HttpPost]

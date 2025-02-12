@@ -17,4 +17,6 @@ public class RecettePrevisionnelle
     public Exercice? Exercice { get; set; }
     [Column("montant_total")]
     public decimal MontantTotal { get; set; }
+    public ICollection<DetailsRecettePrevisionnelle> DetailsRecettePrevisionnelles { get; set; } = new List<DetailsRecettePrevisionnelle>();
+
 }

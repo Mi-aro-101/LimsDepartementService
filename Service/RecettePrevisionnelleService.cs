@@ -14,9 +14,17 @@ public class RecettePrevisionnelleService : IRecettePrevisionnelleService
 
     public async Task<RecettePrevisionnelle> GetRecettePrevisionnelle(int id)
     {
-        RecettePrevisionnelle recettePrevisionnelle = await _dbContext.RecettePrevisionnelles
+        RecettePrevisionnelle? recettePrevisionnelle = await _dbContext.RecettePrevisionnelles
            .Where(r => r.IdRecettePrevisionnelle == id)
+           .Include(r => r.Exercice)
+           .Include(r => r.DetailsRecettePrevisionnelles)
+           .ThenInclude(dr => dr.Departement)
            .FirstOrDefaultAsync();
+        
+        if(recettePrevisionnelle == null)
+        {
+            throw new Exception("Il n'y a pas de données dans votre base");
+        }
 
         return recettePrevisionnelle;
     }

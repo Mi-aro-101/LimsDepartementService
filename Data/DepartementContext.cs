@@ -10,8 +10,11 @@ public class DepartementContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<DetailsRecettePrevisionnelle>()
-        .HasNoKey();
+        builder.Entity<RecettePrevisionnelle>()
+        .HasMany(r => r.DetailsRecettePrevisionnelles)
+        .WithOne(r => r.RecettePrevisionnelle)
+        .HasForeignKey(r => r.IdRecettePrevisionnelle)
+        .HasPrincipalKey(r => r.IdRecettePrevisionnelle);
     }
 
     public DbSet<Departement> Departements { get; set; }
