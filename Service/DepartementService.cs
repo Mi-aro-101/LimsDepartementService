@@ -34,7 +34,7 @@ public class DepartementService : IDepartementService
         Departement? departement = await _dbContext.Departements.FirstOrDefaultAsync(d => d.IdDepartement == id);
         if(departement == null)
         {
-            throw new ArgumentException("L'departement que vous souhaitez supprimer n'est pas dans la base de données");
+            throw new ArgumentException("Le departement que vous souhaitez supprimer n'est pas dans la base de données");
         }
         _dbContext.Departements.Remove(departement);
         await _dbContext.SaveChangesAsync();
@@ -50,9 +50,13 @@ public class DepartementService : IDepartementService
 
     public async Task<Departement> GetDepartement(int id)
     {
-        Departement result = await _dbContext.Departements
+        Departement? result = await _dbContext.Departements
             .Where(d => d.IdDepartement == id)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
+        if(result == null)
+        {
+            throw new Exception("Vous n'avez de données departement dans votre base");
+        }
         return result;
     }
 
