@@ -25,7 +25,6 @@ public class DepartementController : Controller
         return CreatedAtAction(nameof(GetDepartementDetails), new { id = departement.IdDepartement}, new ApiResponse
         {
             Data = departement,
-            ViewBag = null,
             IsSuccess = true,
             Message = "Created successfully",
             StatusCode = 201
@@ -39,7 +38,6 @@ public class DepartementController : Controller
         return CreatedAtAction(nameof(GetDepartementDetails), new { id = departement.IdDepartement }, new ApiResponse
         {
             Data = _departementService.GetDepartement(departement.IdDepartement),
-            ViewBag = null,
             IsSuccess = true,
             Message = "Created successfully",
             StatusCode = 201
@@ -61,7 +59,6 @@ public class DepartementController : Controller
         return Ok(new ApiResponse
         {
             Data = departements,
-            ViewBag = null,
             IsSuccess = true,
             Message = "Datas retrieved successfully.",
             StatusCode = 200
@@ -98,7 +95,6 @@ public class DepartementController : Controller
         return Ok( new ApiResponse
         {
             Data = departement,
-            ViewBag = null,
             IsSuccess = true,
             Message = "Data retrieved successfully.",
             StatusCode = 200
