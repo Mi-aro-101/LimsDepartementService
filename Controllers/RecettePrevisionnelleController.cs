@@ -3,6 +3,7 @@ using LimsDepartementService.Models;
 using LimsDepartementService.Service;
 using LimsUtils.Api; // Library from ./lib/*.dll
 using System.Text.Json;
+using LimsDepartementService.Dtos;
 
 namespace LimsDepartementService.Controllers;
 
@@ -26,7 +27,6 @@ public class RecettePrevisionelleController : Controller
             return Ok(new ApiResponse
             {
                 Data = recettePrevisionnelle,
-                ViewBag = null,
                 IsSuccess = true,
                 Message = "Data retrieved successfully.",
                 StatusCode = 200
@@ -38,13 +38,12 @@ public class RecettePrevisionelleController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateRecettePrevisionnelle(RecettePrevisionnelle recettePrevisionnelle)
+    public async Task<ActionResult> CreateRecettePrevisionnelle(RecettePrevisionnelleDto recettePrevisionnelle)
     {
         RecettePrevisionnelle recettePrevisionnelleCreated = await _recettePrevisionnelleService.CreateRecettePrevisionnelle(recettePrevisionnelle);
         return CreatedAtAction(nameof(GetRecettePrevisionnelle), new { id = recettePrevisionnelleCreated.IdRecettePrevisionnelle}, new ApiResponse
         {
             Data = recettePrevisionnelleCreated,
-            ViewBag = null,
             IsSuccess = true,
             Message = "Created successfully",
             StatusCode = 201

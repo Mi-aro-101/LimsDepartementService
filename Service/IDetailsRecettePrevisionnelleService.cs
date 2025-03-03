@@ -4,5 +4,5 @@ namespace LimsDepartementService.Service;
 
 public interface IDetailsRecettePrevisionnelleService
 {
-        Task<DetailsRecettePrevisionnelle> CreateDetailsRecettePrevisionnelle(DetailsRecettePrevisionnelle detailsRecettePrevisionnelle);
+    Task<DetailsRecettePrevisionnelle> CreateRecettePrevisionnelle(DetailsRecettePrevisionnelle detailsRecettePrevisionnelle);
 }

@@ -5,16 +5,17 @@ namespace LimsDepartementService.Service;
 
 public class DetailsRecettePrevisionnelleService : IDetailsRecettePrevisionnelleService
 {
-    private readonly DepartementContext _dbContext;
-
-    public DetailsRecettePrevisionnelleService(DepartementContext dbContext)
+    private readonly DepartementContext _dbContect;
+    public DetailsRecettePrevisionnelleService(DepartementContext dbContect)
     {
-        _dbContext = dbContext;
+        _dbContect = dbContect;
     }
-    public async Task<DetailsRecettePrevisionnelle> CreateDetailsRecettePrevisionnelle(DetailsRecettePrevisionnelle detailsRecettePrevisionnelle)
+
+    public async Task<DetailsRecettePrevisionnelle> CreateRecettePrevisionnelle(DetailsRecettePrevisionnelle detailsRecettePrevisionnelle)
     {
-        _dbContext.DetailsRecettePrevisionnelles.Add(detailsRecettePrevisionnelle);
-        await _dbContext.SaveChangesAsync();
-        return detailsRecettePrevisionnelle;
+        await _dbContect.DetailsRecettePrevisionnelles.AddAsync(detailsRecettePrevisionnelle);
+        await _dbContect.SaveChangesAsync();
+
+        return await Task.FromResult(detailsRecettePrevisionnelle);
     }
 }
