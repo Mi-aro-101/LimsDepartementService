@@ -40,13 +40,25 @@ public class RecettePrevisionelleController : Controller
     [HttpPost]
     public async Task<ActionResult> CreateRecettePrevisionnelle(RecettePrevisionnelleDto recettePrevisionnelle)
     {
-        RecettePrevisionnelle recettePrevisionnelleCreated = await _recettePrevisionnelleService.CreateRecettePrevisionnelle(recettePrevisionnelle);
-        return CreatedAtAction(nameof(GetRecettePrevisionnelle), new { id = recettePrevisionnelleCreated.IdRecettePrevisionnelle}, new ApiResponse
+        try
         {
-            Data = recettePrevisionnelleCreated,
-            IsSuccess = true,
-            Message = "Created successfully",
-            StatusCode = 201
-        });
+
+            RecettePrevisionnelle recettePrevisionnelleCreated = await _recettePrevisionnelleService.CreateRecettePrevisionnelle(recettePrevisionnelle);
+            return CreatedAtAction(nameof(GetRecettePrevisionnelle), new { id = recettePrevisionnelleCreated.IdRecettePrevisionnelle}, new ApiResponse
+            {
+                Data = recettePrevisionnelleCreated,
+                IsSuccess = true,
+                Message = "Created successfully",
+                StatusCode = 201
+            });
+        }catch(Exception ex)
+        {
+            return StatusCode(500, new ApiResponse
+            {
+                IsSuccess = false,
+                Message = ex.Message,
+                StatusCode = 500
+            });
+        }
     }
 }

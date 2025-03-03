@@ -12,7 +12,7 @@ public class RecettePrevisionnelle
 {
     public async Task<RecettePrevisionnelle> CreateRecettePrevisionnelle(DepartementContext dbContext, Exercice exercice)
     {
-        if(this.DetailsRecettePrevisionnelles.Any())
+        if(!this.DetailsRecettePrevisionnelles.Any())
         {
             throw new Exception("Vous n'avez pas fourni de details concernant les departements dans la recette");
         }
