@@ -15,10 +15,13 @@ public class DepartementContext : DbContext
         .WithOne(r => r.RecettePrevisionnelle)
         .HasForeignKey(r => r.IdRecettePrevisionnelle)
         .HasPrincipalKey(r => r.IdRecettePrevisionnelle);
+
+        builder.Entity<VComparaisonRecette>().HasNoKey().ToView(null);
     }
 
     public DbSet<Departement> Departements { get; set; }
     public DbSet<Exercice> Exercices { get; set; }
     public DbSet<RecettePrevisionnelle> RecettePrevisionnelles { get; set; }
     public DbSet<DetailsRecettePrevisionnelle> DetailsRecettePrevisionnelles { get; set; }
+    public DbSet<VComparaisonRecette> VComparaisonRecettes { get; set; }
 }
