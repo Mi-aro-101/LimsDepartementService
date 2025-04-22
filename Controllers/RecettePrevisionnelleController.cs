@@ -12,9 +12,11 @@ namespace LimsDepartementService.Controllers;
 public class RecettePrevisionelleController : Controller
 {
     private readonly IRecettePrevisionnelleService _recettePrevisionnelleService;
-    public RecettePrevisionelleController(IRecettePrevisionnelleService recettePrevisionnelleService)
+    private readonly IDetailsRecettePrevisionnelleService _detailsRecettePrevisionnelleService;
+    public RecettePrevisionelleController(IRecettePrevisionnelleService recettePrevisionnelleService, IDetailsRecettePrevisionnelleService detailsRecettePrevisionnelleService)
     {
         _recettePrevisionnelleService = recettePrevisionnelleService;
+        _detailsRecettePrevisionnelleService = detailsRecettePrevisionnelleService;
     }
 
     [HttpGet("{id}")]
@@ -59,6 +61,26 @@ public class RecettePrevisionelleController : Controller
                 Message = ex.Message,
                 StatusCode = 500
             });
+        }
+    }
+
+    [HttpGet("comparaison/prevision/realite/{annee}")]
+    public async Task<ActionResult> GetComparaisonPrevisionRealite(int annee)
+    {
+        try
+        {
+            VComparaisonRecette[] recettePrevisionnelle = await _detailsRecettePrevisionnelleService.GetComparaisonRecetteRealiteDepartement(annee);
+            if (recettePrevisionnelle == null) return NotFound();
+            return Ok(new ApiResponse
+            {
+                Data = recettePrevisionnelle,
+                IsSuccess = true,
+                Message = "Data retrieved successfully.",
+                StatusCode = 200
+            });
+        }catch(Exception)
+        {
+            throw;
         }
     }
 }
